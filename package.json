@@ -1,0 +1,14 @@
+{
+  "name": "internify-root",
+  "version": "1.0.0",
+  "description": "Root orchestrator for Internify application",
+  "scripts": {
+    "install-all": "npm install && npm install --prefix backend && npm install --prefix Frontend",
+    "dev": "concurrently \"npm run dev --prefix backend\" \"npm run dev --prefix Frontend\"",
+    "backend": "npm run dev --prefix backend",
+    "frontend": "npm run dev --prefix Frontend"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}

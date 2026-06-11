@@ -1,0 +1,25 @@
+==================================================
+INTERNIFY PROJECT DEPENDENCY LIST (NPM LIBRARIES)
+==================================================
+
+--------------------------------------------------
+1. Backend Node.js / Express Server Dependencies
+--------------------------------------------------
+- express (v5.2.1)       : Web framework for REST API routing.
+- mongoose (v9.1.1)      : ODM helper to connect and query MongoDB.
+- jsonwebtoken (v9.0.3)  : Creates and verifies secure authentication tokens (JWT).
+- bcryptjs (v3.0.3)      : Hashing algorithm to secure user passwords in database.
+- multer (v2.0.2)        : Middleware for processing resume file uploads (PDF).
+- cors (v2.8.5)          : Enable Cross-Origin Resource Sharing for backend APIs.
+- dotenv (v17.2.3)       : Loader for setting environment configurations (.env).
+- nodemon (v3.1.11)      : Automatically restarts Node app when files are modified.
+
+--------------------------------------------------
+2. Frontend React / Vite Client Dependencies
+--------------------------------------------------
+- react (v19.2.6)        : UI library for rendering component states.
+- react-dom (v19.2.6)    : Entry point for React rendering on DOM.
+- react-router-dom (v7.15.1) : Handles protected routes and navigation states.
+- axios (v1.16.1)        : Promise HTTP client for backend route requests and authorization headers.
+- lucide-react (v1.16.0) : Standard icons library for student and admin dashboard widgets.
+- vite (v8.0.12)         : Fast dev server and client builder.
