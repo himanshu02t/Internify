@@ -24,6 +24,12 @@ app.get("/", (req,res)=>{
   res.send("Internify Backend Running 🚀");
 });
 
+// Global Error Handler
+app.use((err, req, res, next) => {
+  console.error("Express Error Handler:", err);
+  res.status(err.status || 400).json({ error: err.message || "An unexpected error occurred." });
+});
+
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, ()=>{
   console.log(`Server running on port ${PORT}`);

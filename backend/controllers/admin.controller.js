@@ -54,12 +54,13 @@ exports.getApplications = async (req, res) => {
         const user = app.user;
         const internship = app.internship;
         const userSkills = user.skills || [];
+        const userSkillsLower = userSkills.map(s => s.toLowerCase());
 
-        const matchedSkills = internship.skillsRequired.filter(skill => userSkills.includes(skill));
+        const matchedSkills = internship.skillsRequired.filter(skill => userSkillsLower.includes(skill.toLowerCase()));
         const matchPercentage = internship.skillsRequired.length > 0
           ? Math.round((matchedSkills.length / internship.skillsRequired.length) * 100)
           : 0;
-        const missingSkills = internship.skillsRequired.filter(skill => !userSkills.includes(skill));
+        const missingSkills = internship.skillsRequired.filter(skill => !userSkillsLower.includes(skill.toLowerCase()));
 
         return {
           ...app.toObject(),
@@ -91,7 +92,7 @@ exports.updateApplicationStatus = async (req, res) => {
     }
 
     const postedByUserId = existingApp.internship.postedBy;
-    const isOwner = postedByUserId && postedByUserId.toString() === req.userId.toString();
+    const isOwner = (postedByUserId && postedByUserId.toString() === req.userId.toString()) || req.userRole === "admin";
 
     if (!isOwner) {
       return res.status(403).json({ msg: "Only the recruiter/admin who posted the internship can update candidate status" });
@@ -114,11 +115,12 @@ exports.updateApplicationStatus = async (req, res) => {
 
     if (user && internship) {
       const userSkills = user.skills || [];
-      const matchedSkills = internship.skillsRequired.filter(skill => userSkills.includes(skill));
+      const userSkillsLower = userSkills.map(s => s.toLowerCase());
+      const matchedSkills = internship.skillsRequired.filter(skill => userSkillsLower.includes(skill.toLowerCase()));
       matchPercentage = internship.skillsRequired.length > 0
         ? Math.round((matchedSkills.length / internship.skillsRequired.length) * 100)
         : 0;
-      missingSkills = internship.skillsRequired.filter(skill => !userSkills.includes(skill));
+      missingSkills = internship.skillsRequired.filter(skill => !userSkillsLower.includes(skill.toLowerCase()));
     }
 
     if (status === "Accepted" && req.body.emailSubject && req.body.emailBody && user) {

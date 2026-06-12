@@ -1189,7 +1189,7 @@ function StudentDashboard({ darkMode, setDarkMode }) {
                           <p style={{ fontSize: "0.8rem", fontWeight: 700, color: "var(--text-muted)", textTransform: "uppercase", letterSpacing: "0.5px", marginBottom: "0.5rem" }}>Required Stack:</p>
                           <div className="skills-list">
                             {it.skillsRequired.map((skill, sIdx) => {
-                              const matched = !isRecruiterMode && user?.skills?.includes(skill);
+                              const matched = !isRecruiterMode && user?.skills?.some(s => s.toLowerCase() === skill.toLowerCase());
                               return (
                                 <span key={sIdx} className={`skill-badge ${isRecruiterMode ? "matched" : matched ? "matched" : "missing"}`}>
                                   {skill}
@@ -2014,7 +2014,7 @@ function StudentDashboard({ darkMode, setDarkMode }) {
                 <h4 style={{ color: "var(--text-main)", marginBottom: "0.5rem", fontWeight: 700 }}>Required Skills Stack</h4>
                 <div className="skills-list">
                   {selectedInternship.skillsRequired.map((skill, sIdx) => {
-                    const matched = !isRecruiterMode && user?.skills?.includes(skill);
+                    const matched = !isRecruiterMode && user?.skills?.some(s => s.toLowerCase() === skill.toLowerCase());
                     return (
                       <span key={sIdx} className={`skill-badge ${isRecruiterMode ? "matched" : matched ? "matched" : "missing"}`}>
                         {skill}

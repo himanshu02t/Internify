@@ -52,8 +52,8 @@ const fallbackAnalysis = (resumeText, requiredSkills, companyName = "", jobRole 
   // 2. Keywords match (20%)
   let keywordsScore = 0;
   const keywordsToCheck = [
-    jobRole.toLowerCase(),
-    companyName.toLowerCase(),
+    jobRole && typeof jobRole === "string" ? jobRole.toLowerCase() : "",
+    companyName && typeof companyName === "string" ? companyName.toLowerCase() : "",
     "developer", "engineer", "designer", "analyst", "manager", "intern",
     "software", "web", "frontend", "backend", "fullstack", "data", "cloud"
   ].filter(Boolean);
@@ -233,7 +233,11 @@ Schema:
           }
         });
 
-        const textResult = response.response.text();
+        let textResult = response.response.text().trim();
+        // Strip out markdown code fences if they are returned by Gemini
+        if (textResult.startsWith("```")) {
+          textResult = textResult.replace(/^```(?:json)?\n?/, "").replace(/\n?```$/, "").trim();
+        }
         result = JSON.parse(textResult);
 
         // Normalize if model returned nested structures

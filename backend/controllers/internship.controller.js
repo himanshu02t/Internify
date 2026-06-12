@@ -5,12 +5,14 @@ exports.getAll = async (req, res) => {
     const internships = await Internship.find().sort({ postedAt: -1 });
     const user = req.user;
     const userSkills = user.skills || [];
+    const userSkillsLower = userSkills.map(s => s.toLowerCase());
+
     const data = internships.map(internship => {
-      const matchedSkills = internship.skillsRequired.filter(skill => userSkills.includes(skill));
+      const matchedSkills = internship.skillsRequired.filter(skill => userSkillsLower.includes(skill.toLowerCase()));
       const matchPercentage = internship.skillsRequired.length > 0
         ? Math.round((matchedSkills.length / internship.skillsRequired.length) * 100)
         : 0;
-      const missingSkills = internship.skillsRequired.filter(skill => !userSkills.includes(skill));
+      const missingSkills = internship.skillsRequired.filter(skill => !userSkillsLower.includes(skill.toLowerCase()));
       return {
         ...internship.toObject(),
         matchPercentage,
@@ -28,13 +30,15 @@ exports.recommend = async (req, res) => {
     const internships = await Internship.find();
     const user = req.user;
     const userSkills = user.skills || [];
+    const userSkillsLower = userSkills.map(s => s.toLowerCase());
+
     const recommended = internships
       .map(internship => {
-        const matchedSkills = internship.skillsRequired.filter(skill => userSkills.includes(skill));
+        const matchedSkills = internship.skillsRequired.filter(skill => userSkillsLower.includes(skill.toLowerCase()));
         const matchPercentage = internship.skillsRequired.length > 0
           ? Math.round((matchedSkills.length / internship.skillsRequired.length) * 100)
           : 0;
-        const missingSkills = internship.skillsRequired.filter(skill => !userSkills.includes(skill));
+        const missingSkills = internship.skillsRequired.filter(skill => !userSkillsLower.includes(skill.toLowerCase()));
         return {
           ...internship.toObject(),
           matchPercentage,

@@ -60,14 +60,18 @@ exports.updateProfile = async (req, res) => {
     } else if (!Array.isArray(skills)) {
       skills = [];
     }
+    const updateFields = {};
+    if (req.body.name !== undefined) updateFields.name = req.body.name;
+    if (req.body.bio !== undefined) updateFields.bio = req.body.bio;
+    if (req.body.company !== undefined) updateFields.company = req.body.company;
+    if (req.body.skills !== undefined || req.body.skills === undefined) {
+      // Always update skills if provided, or default to parsed value
+      updateFields.skills = skills;
+    }
+
     const user = await User.findByIdAndUpdate(
       req.userId,
-      {
-        name: req.body.name,
-        skills: skills,
-        bio: req.body.bio,
-        company: req.body.company
-      },
+      { $set: updateFields },
       { new: true }
     );
     res.json(user);
